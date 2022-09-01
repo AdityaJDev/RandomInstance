@@ -52,12 +52,12 @@ def r_uuid():
     return str(uuid.uuid4())
 
 
-# The function below are supposed to be added to model classes
+# The function below is supposed to be added to model classes
 
 
-def random_data(self):
+def random_data(ClassName):
     randict = {}
-    for f in self._meta.fields:
+    for f in ClassName._meta.fields:
         if type(f) == (CharField or TextField):
             randict[f.name] = r_char()
         elif type(f) == (IntegerField or BigIntegerField or PositiveIntegerField):
