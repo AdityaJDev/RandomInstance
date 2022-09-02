@@ -14,7 +14,7 @@ def r_char(kwargs):
 
 
 def r_int(kwargs):
-    return random.randrange(kwargs.get("ni", 0), kwargs.get("mi", 10000))
+    return random.randrange(kwargs.get("mi", 0), kwargs.get("ni", 10000))
 
 
 def r_float(kwargs):
