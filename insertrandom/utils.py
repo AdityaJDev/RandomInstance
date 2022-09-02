@@ -45,9 +45,9 @@ def r_datetime(kwargs):
 
 
 def r_date(kwargs):
-    start_date = datetime.strptime(kwargs.get("end_d", "1970-1-1"), "%Y-%m-%d")
+    start_date = datetime.strptime(kwargs.get("start_d", "1970-1-1"), "%Y-%m-%d")
     if kwargs.get("start_d", None):
-        end_date = datetime.strptime(kwargs.get("start_d"), "%Y-%m-%d")
+        end_date = datetime.strptime(kwargs.get("end_d"), "%Y-%m-%d")
     else:
         end_date = datetime.today()
     delta = end_date - start_date
