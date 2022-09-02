@@ -6,7 +6,7 @@ import string
 import uuid
 
 
-def r_char(n):
+def r_char(n=255):
     return "".join(random.choices(string.ascii_letters, k=random.randrange(n)))
 
 
@@ -62,32 +62,34 @@ def r_uuid():
     return str(uuid.uuid4())
 
 
+func_dict = {
+    CharField: r_char,
+    TextField: r_char,
+    IntegerField: r_int,
+    BigIntegerField: r_int,
+    PositiveIntegerField: r_int,
+    FloatField: r_float,
+    EmailField: r_email,
+    DateTimeField: r_datetime,
+    DateField: r_date,
+    URLField: r_url,
+    BinaryField: r_binary,
+    BooleanField: r_bool,
+    NullBooleanField: r_bool,
+    UUIDField: r_uuid,
+}
+
+
 def random_data(ClassName, n=1):
     masterlist = []
     for i in range(n):
         randict = {}
         for f in ClassName._meta.fields:
-            if type(f) == (CharField or TextField):
-                randict[f.name] = r_char(f.max_length)
-            elif type(f) == (IntegerField or BigIntegerField or PositiveIntegerField):
-                randict[f.name] = r_int()
-            elif type(f) == FloatField:
-                randict[f.name] = r_float()
-            elif type(f) == EmailField:
-                randict[f.name] = r_email()
-            elif type(f) == DateTimeField:
-                randict[f.name] = r_datetime()
-            elif type(f) == URLField:
-                randict[f.name] = r_url()
-            elif type(f) == ForeignKey:
+            if type(f) == ForeignKey:
                 randict[f.name] = None
             elif type(f) == (BigAutoField or AutoField):
                 continue
-            elif type(f) == BinaryField:
-                randict[f.name] = r_binary()
-            elif type(f) == (BooleanField or NullBooleanField):
-                randict[f.name] = r_bool()
-            elif type(f) == UUIDField:
-                randict[f.name] = r_uuid()
-        masterlist.append(random_data())
+            else:
+                randict[f.name] = func_dict[type(f)]()
+        masterlist.append(randict)
     return masterlist
