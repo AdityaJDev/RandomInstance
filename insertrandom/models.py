@@ -13,13 +13,18 @@ class Author(models.Model):
         app_label = "insertrandom"
 
     @staticmethod
-    def random_object():
-        randObjList = Author.objects.all()
-        idList = []
-        for i in randObjList:
-            idList.append(i.id)
-            print(idList)
-        return random.choices(idList)
+    def random_object(n=0):
+        result = None
+        if n > 0:
+            objlist = Author.objects.all().order_by(-id)[:n]
+        else:
+            objlist = Author.objects.all()
+        idlist = []
+        for i in objlist:
+            idlist.append(i.id)
+        if len(idlist) > 0:
+            result = random.choices(idlist)
+        return result
 
 
 class Publisher(models.Model):
@@ -28,13 +33,18 @@ class Publisher(models.Model):
     publisher_site = models.URLField(max_length=255)
 
     @staticmethod
-    def random_object():
-        objlist = Author.objects.all()
+    def random_object(n=0):
+        result = None
+        if n:
+            objlist = Author.objects.all().order_by(-id)[:n]
+        else:
+            objlist = Author.objects.all()
         idlist = []
         for i in objlist:
             idlist.append(i.id)
-            print(idlist)
-        return random.choices(idlist)
+        if idlist:
+            result = random.choices(idlist)
+        return result
 
 
 class Books(models.Model):
