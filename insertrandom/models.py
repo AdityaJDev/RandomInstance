@@ -12,11 +12,29 @@ class Author(models.Model):
     class Meta:
         app_label = "insertrandom"
 
+    @staticmethod
+    def random_object():
+        randObjList = Author.objects.all()
+        idList = []
+        for i in randObjList:
+            idList.append(i.id)
+            print(idList)
+        return random.choices(idList)
+
 
 class Publisher(models.Model):
     publisher_name = models.CharField(max_length=255)
     publisher_email = models.EmailField(max_length=255)
     publisher_site = models.URLField(max_length=255)
+
+    @staticmethod
+    def random_object():
+        objlist = Author.objects.all()
+        idlist = []
+        for i in objlist:
+            idlist.append(i.id)
+            print(idlist)
+        return random.choices(idlist)
 
 
 class Books(models.Model):

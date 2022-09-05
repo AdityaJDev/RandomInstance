@@ -65,7 +65,7 @@ def r_url(kwargs):
     )
 
 
-def r_binary(kwargs):
+643def r_binary(kwargs):
     return bin(r_int(kwargs))
 
 
@@ -95,13 +95,15 @@ func_dict = {
 }
 
 
-def random_data(ClassName, n=1, **kwargs):
+def random_data(ClassName, kwargs, n=1, keys = {}):
     masterlist = []
     for i in range(n):
         randict = {}
         for f in ClassName._meta.fields:
             if type(f) == ForeignKey:
-                randict[f.name] = None
+                if f.related_model in keys:
+                    randict[f.name] = f.related_model.random_object()
+                elif --
             elif type(f) == (BigAutoField or AutoField):
                 continue
             else:
@@ -110,3 +112,17 @@ def random_data(ClassName, n=1, **kwargs):
                 randict[f.name] = func_dict[type(f)](kwargs)
         masterlist.append(randict)
     return masterlist
+
+
+def insert_random(ClassName, n, *args, **kwargs):
+    modeldict = {}
+    for m in range(0, len(args), 2):
+        ModelName = args[m]
+        i = args[m + 1]
+        idlist = []
+        objlist = random_data(ModelName, kwargs, i)
+        for object in objlist:
+            obj = ModelName(**object)
+            obj.save()
+            idlist.append(obj.id)
+        modeldict[ModelName]: idlist
