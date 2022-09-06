@@ -16,14 +16,14 @@ class Author(models.Model):
     def random_object(n=0):
         result = None
         if n > 0:
-            objlist = Author.objects.all().order_by(-id)[:n]
+            objlist = Author.objects.all().order_by("-id")[:n]
         else:
             objlist = Author.objects.all()
         idlist = []
         for i in objlist:
             idlist.append(i.id)
         if len(idlist) > 0:
-            result = random.choices(idlist)
+            result = random.choices(idlist)[0]
         return result
 
 
@@ -36,14 +36,14 @@ class Publisher(models.Model):
     def random_object(n=0):
         result = None
         if n:
-            objlist = Author.objects.all().order_by(-id)[:n]
+            objlist = Author.objects.all().order_by("-id")[:n]
         else:
             objlist = Author.objects.all()
         idlist = []
         for i in objlist:
             idlist.append(i.id)
         if idlist:
-            result = random.choices(idlist)
+            result = random.choices(idlist)[0]
         return result
 
 

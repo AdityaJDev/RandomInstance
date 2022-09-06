@@ -1,5 +1,4 @@
 from datetime import datetime, date, timedelta
-from multiprocessing import AuthenticationError
 from django.db.models.fields import *
 from django.db.models.fields.related import *
 import random
@@ -103,10 +102,10 @@ def random_data(ClassName, args, kwargs, n=1):
             if type(f) == ForeignKey:
                 if f.related_model in args:
                     randict[f.name] = f.related_model.random_object(
-                        args[args.index(f.related_model) + 1]
+                        args[args.index(f.related_model._meta.object_name) + 1]
                     )
                 else:
-                    randict[f.name] = f.related_model.random_object()
+                    randict[f.name + "_id"] = f.related_model.random_object()
             elif type(f) == (BigAutoField or AutoField):
                 continue
             else:
@@ -128,9 +127,10 @@ def insert_random(ClassName, n, *args, **kwargs):
             obj = ModelName(**object)
             obj.save()
             idlist.append(obj.id)
-        modeldict[ModelName]: idlist
+        modeldict[ModelName] = idlist
     for o in range(n):
         entrylist = random_data(ClassName, args, kwargs, n)
         for entry in entrylist:
+            print(entry)
             obj = ClassName(**entry)
             obj.save()
