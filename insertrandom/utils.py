@@ -101,8 +101,8 @@ def random_data(ClassName, args, kwargs, n=1):
         for f in ClassName._meta.fields:
             if type(f) == ForeignKey:
                 if f.related_model in args:
-                    randict[f.name] = f.related_model.random_object(
-                        args[args.index(f.related_model._meta.object_name) + 1]
+                    randict[f.name + "_id"] = f.related_model.random_object(
+                        args[args.index(f.related_model) + 1]
                     )
                 else:
                     randict[f.name + "_id"] = f.related_model.random_object()
